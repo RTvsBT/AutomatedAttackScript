@@ -52,7 +52,7 @@ class exploit(object):
 
         s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         ##Add FTP Server IP Here###############
-        connect = s.connect((self.HOST,self.PORT))
+        s.connect((self.HOST,self.PORT))
         #######################################
 
         s.recv(1024)
