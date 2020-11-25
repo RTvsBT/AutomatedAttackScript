@@ -1,7 +1,7 @@
 import socket
 
 
-class exploit(object):
+class Exploit(object):
     def __init__(self):
         self.Name = "GetHostname"
         self.Description = "This function gets the hostname"

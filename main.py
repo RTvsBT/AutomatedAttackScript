@@ -1,30 +1,31 @@
-import os, sys, inspect, argparse, collections
+import os, sys, inspect, argparse, collections, time
+from random import randint
 
 def load_modules_from_path(path):
-   """
-   Import all modules from the given directory
-   """
+    """
+    Import all modules from the given directory
+    """
+    
+    imported_modules = []
+    # Check and fix the path
+    if path[-1:] != '/':
+        path += '/'
 
-   imported_modules = []
-   # Check and fix the path
-   if path[-1:] != '/':
-       path += '/'
-
-   # Get a list of files in the directory, if the directory exists
-   if not os.path.exists(path):
+    # Get a list of files in the directory, if the directory exists
+    if not os.path.exists(path):
         raise OSError("Directory does not exist: %s" % path)
 
-   # Add path to the system path
-   sys.path.append(path)
-   # Load all the files in path
-   for f in os.listdir(path):
-       # Ignore anything that isn't a .py file
-       if len(f) > 3 and f[-3:] == '.py':
-           modname = f[:-3]
-           # Import the module
-           __import__(modname, globals(), locals(), ['*'])
-           imported_modules.append(modname)
-   return imported_modules
+    # Add path to the system path
+    sys.path.append(path)
+    # Load all the files in path
+    for f in os.listdir(path):
+        # Ignore anything that isn't a .py file
+        if len(f) > 3 and f[-3:] == '.py':
+            modname = f[:-3]
+            # Import the module
+            __import__(modname, globals(), locals(), ['*'])
+            imported_modules.append(modname)
+    return imported_modules
 
 def load_class_from_name(fqcn):
     # Break apart fqcn to get module and classname
@@ -106,6 +107,9 @@ def get_all_classes():
 
 def automated_attacks(exploit_classes):
     # pass
+    while True:
+        print("Picking an exploit")
+
 
 
 def main():
