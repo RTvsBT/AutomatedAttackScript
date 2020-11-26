@@ -1,5 +1,5 @@
 import socket
-
+import Util
 
 class Exploit(object):
     def __init__(self):
@@ -7,6 +7,8 @@ class Exploit(object):
         self.Description = "This function gets the hostname"
         self.Author = "René van Vliet"
         self.Version = "0.1"
+        self.Platform = Util.Platform.Any
+        self.Type = Util.Type.Local
         self.POC = ""
 
         

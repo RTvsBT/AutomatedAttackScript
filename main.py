@@ -1,5 +1,5 @@
-import os, sys, inspect, argparse, collections, time
-from random import randint
+import os, sys, inspect, argparse, collections, time, random, enum
+import scripts.Util
 
 def load_modules_from_path(path):
     """
@@ -20,7 +20,7 @@ def load_modules_from_path(path):
     # Load all the files in path
     for f in os.listdir(path):
         # Ignore anything that isn't a .py file
-        if len(f) > 3 and f[-3:] == '.py':
+        if len(f) > 3 and f[-3:] == '.py' and f != 'Util.py':
             modname = f[:-3]
             # Import the module
             __import__(modname, globals(), locals(), ['*'])
@@ -44,37 +44,19 @@ def load_class_from_name(fqcn):
 
 def is_valid_exploit_class(class_object):
     found_invalid_class = False
-    found_exploit_names = []
-
-    # Check the attributes itself.
-    if not hasattr(class_object, "Name"):
-        print(f"The file {class_object.__module__}.py is missing the Name attribute.")
-        found_invalid_class = True
-    else:
-        found_exploit_names.append(class_object.Name)
-    if not hasattr(class_object, "Description"): 
-        print(f"The file {class_object.__module__}.py is missing the Description attribute.")
-        found_invalid_class = True
-    if not hasattr(class_object, "Author"):
-        print(f"The file {class_object.__module__}.py is missing the Author attribute.")
-        found_invalid_class = True
-    if not hasattr(class_object, "Version"):
-        print(f"The file {class_object.__module__}.py is missing the Version attribute.")
-        found_invalid_class = True
-    if not hasattr(class_object, "POC"):
-        print(f"The file {class_object.__module__}.py is missing the POC attribute.")
-        found_invalid_class = True
-    if not hasattr(class_object, "HOST"):
-        print(f"The file {class_object.__module__}.py is missing the HOST attribute.")
-        found_invalid_class = True
-    if not hasattr(class_object, "PORT"):
-        print(f"The file {class_object.__module__}.py is missing the PORT attribute.")
-        found_invalid_class = True
-    if not hasattr(class_object, "run"):
-        print(f"The file {class_object.__module__}.py is missing the run function.")
-        found_invalid_class = True
-    # Get every duplicate exploit name.
-    # duplicate_exploit_names = [item for item, count in collections.Counter(found_exploit_names).items() if count > 1]
+    # Check if every required metadata piece exists.
+    required_attributes = ["Name", "Description", "Author", "Type", "Platform", "Version", "run" , "POC", "HOST", "PORT"]
+    for attribute in required_attributes:
+        if attribute not in dir(class_object):
+            print(f"The file {class_object.__module__}.py is missing the {attribute} attribute.")
+            found_invalid_class = True   
+    
+    # Check if the attribute types are an enum type so we 
+    enum_type_attributes = ["Platform", "Type"]
+    for attr in enum_type_attributes:
+        if(not issubclass(type(getattr(class_object,attr)),enum.Enum)):
+            print(f"The attribute {attr} is not an enum. Please use the enum to keep consistancy.")
+            found_invalid_class = True   
 
     return not found_invalid_class
 
@@ -88,7 +70,6 @@ def get_all_classes():
         for _, module_member in inspect.getmembers(sys.modules[module]):
             # If the member inside the
             if inspect.isclass(module_member):
-
                 # Instanciate the class & Validate it.
                 possible_exploit = module_member()
                 if(not is_valid_exploit_class(possible_exploit)):
@@ -106,9 +87,16 @@ def get_all_classes():
     return exploit_classes
 
 def automated_attacks(exploit_classes):
-    # pass
     while True:
         print("Picking an exploit")
+        time.sleep(random.randint(10,100))
+        picked_exploit = random.choice(exploit_classes)
+        print(f"Picked: {picked_exploit.Name}")
+        if(picked_exploit.Type == Util.Type.Local):
+            # Run a shell first. 
+            pass
+
+        
 
 
 
@@ -123,7 +111,7 @@ def main():
     group.add_argument('-a','--automate',action="store_true", help='automate the attack framework')
     group.add_argument('-p','--payload', action='store', type=str, help='The text to parse.')
     group.add_argument('-d','--details',action="store_true" , help="Print every exploits' details.")
-
+    group.add_argument('-l','--list', action='store_true', help="List every exploit name only")
     # Pack the optional parameters.
     parser.add_argument('--host', help="The host to execute the payload on.")
     parser.add_argument('--port',type=int , help="The port to execute the payload on.")
@@ -146,6 +134,11 @@ def main():
             print()
         exit(0)
 
+    if(args.list):
+        for exploit in exploit_classes:
+            print(exploit.Name)
+        exit(0)
+    
     # Run the script in automated mode.
     if args.automate:
         automated_attacks(exploit_classes)
@@ -180,18 +173,3 @@ def main():
 
 if __name__ == '__main__': 
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

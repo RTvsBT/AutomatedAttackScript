@@ -1,15 +1,18 @@
+import Util
+
 import socket
 import sys
 
 
-class exploit(object):
+class Exploit(object):
     def __init__(self):
         self.Name = "FreeFloat"
         self.Description = "Free Float FTP 1.0 'STOR' Remote Buffer Overflow"
         self.Author = "René van Vliet"
         self.Version = "Free Float FTP 1.0"
         self.POC = "https://www.exploit-db.com/exploits/46763"
-
+        self.Platform = Util.Platform.Windows
+        self.Type = Util.Type.Local
         self.HOST = None
         self.PORT = 21
 
