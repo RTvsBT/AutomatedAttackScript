@@ -15,9 +15,8 @@ class exploit(object):
 
 
     def exploit(self):
-        remote = pwn.ssh(host=self.HOST, user="student", password="student")
-        remote_process = remote.process(['/bin/echo', str(random.randint(1,100)), ">>", "/test/Mock3.log"])
-        remote_process.close()
+        remote = pwn.ssh(host="", user="student", password="student")
+        remote(f"/bin/echo {str(random.randint(1,100))} >> /test/Mock3.log")
         remote.close()
 
 
