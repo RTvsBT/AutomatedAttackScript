@@ -11,13 +11,13 @@ class exploit(object):
         self.Platform = Util.Platform.Linux
 
         self.HOST = None
-        self.PORT = None
+        self.PORT = 8000
 
 
     def exploit(self):
-        remote = pwn.remote(self.HOST, self.PORT, typ="udp")
+        remote = pwn.remote(self.HOST, self.PORT)
         remote.sendline("Mock3")
-
+        remote.close()
 
     def _validate(self):
         if(self.HOST == None):
