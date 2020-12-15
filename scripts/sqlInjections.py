@@ -2,8 +2,8 @@ import pwn, Util,random,requests
 
 class exploit(object):
     def __init__(self):
-        self.Name = "NIDS_Mock1"
-        self.Description = "Fake the first nids alert"
+        self.Name = "SQLI"
+        self.Description = "SQL Injection"
         self.Author = "René van Vliet"
         self.Version = "0.1"
         self.POC = ""
