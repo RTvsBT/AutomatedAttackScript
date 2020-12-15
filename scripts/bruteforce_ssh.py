@@ -2,7 +2,7 @@ import pwn, Util
 
 class exploit(object):
     def __init__(self):
-        self.Name = "SSHLoginAttempts"
+        self.Name = "BRUTEFORCE"
         self.Description = "Multiple SSH login attempts with wrong admin credentials"
         self.Author = "Rens van der Linden"
         self.Version = "0.2"
