@@ -1,9 +1,9 @@
-import pwn, Util, random
+import pwn, Util, random, nmap3
 
 class exploit(object):
     def __init__(self):
-        self.Name = "HIDS_Mock3"
-        self.Description = "Fake the first nids alert"
+        self.Name = "NMAP"
+        self.Description = "NMAP Alerts"
         self.Author = "René van Vliet"
         self.Version = "0.1"
         self.POC = ""
@@ -15,9 +15,8 @@ class exploit(object):
 
 
     def exploit(self):
-        remote = pwn.ssh(host=self.HOST, user="student", password="student")
-        remote(f"/bin/echo {str(random.randint(1,100))} >> /test/Mock3.log")
-        remote.close()
+        nmap = nmap3.NmapScanTechniques()
+        nmap.nmap_tcp_scan(self.HOST, args="-p-")
 
 
     def _validate(self):
