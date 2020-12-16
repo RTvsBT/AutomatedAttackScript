@@ -15,8 +15,9 @@ class exploit(object):
 
 
     def exploit(self):
-        nmap = nmap3.NmapScanTechniques()
-        nmap.nmap_tcp_scan(self.HOST, args="-p-")
+        r = pwn.remote(self.host, 22)
+        r.recv()
+        r.sendline("get_banner")
 
 
     def _validate(self):
