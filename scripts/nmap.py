@@ -15,7 +15,7 @@ class exploit(object):
 
 
     def exploit(self):
-        r = pwn.remote(self.host, 22)
+        r = pwn.remote(self.HOST, 22)
         r.recv()
         r.sendline("get_banner")
 
