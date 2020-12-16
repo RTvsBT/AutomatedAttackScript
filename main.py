@@ -13,8 +13,10 @@ def load_modules_from_path(path):
 
     # Get a list of files in the directory, if the directory exists
     if not os.path.exists(path):
-        raise OSError("Directory does not exist: %s" % path)
-
+        path = os.path.dirname(os.path.realpath(__file__)) + "/" + path
+        if not os.path.exists(path):
+            raise OSError("Directory does not exist: %s" % path)
+    
     # Add path to the system path
     sys.path.append(path)
     # Load all the files in path
