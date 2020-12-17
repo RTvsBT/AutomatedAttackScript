@@ -18,7 +18,7 @@ class exploit(object):
         r = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         r.connect((self.HOST,22))
         r.recv(2048)
-        r.sendmsg("get_banner")
+        r.send(b"get_banner")
         r.close()
 
     def _validate(self):
