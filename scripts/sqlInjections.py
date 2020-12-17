@@ -1,4 +1,4 @@
-import pwn, Util,random,requests
+import Util,random,requests
 
 class exploit(object):
     def __init__(self):
